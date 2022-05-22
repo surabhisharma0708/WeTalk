@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import styled from "styled-components";
 import Logo from "../assets/logo.svg";
 import {ToastContainer,toast} from "react-toastify";
@@ -9,6 +9,7 @@ import { registerRoute } from '../utils/APIRoutes';
 
 function Register() {
 
+  const navigate = useNavigate();
   const toastOptions ={
     position:'bottom-right',
     autoClose: 8000,
@@ -33,6 +34,15 @@ function Register() {
         email,
         password,
       });
+      if(data.status===false)
+      {
+        toast.error(data.msg,toastOptions);
+      }
+      if(data.status===true)
+      {
+        localStorage.setItem("chat-app-user",JSON.stringify(data.user));
+        navigate("/");
+      }
     }
   };
 
